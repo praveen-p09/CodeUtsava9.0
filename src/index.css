@@ -1,35 +1,73 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@100;200;300;400;500;600;700&family=Jolly+Lodger&display=swap");
+@import "tailwindcss";
+
+/* Semantic tokens (blue/pink/neon green/ink/soft) */
+@theme {
+    --color-primary: #1e90ff;
+    --color-accent: #ff0099;
+    --color-accent-2: #00ff85;
+    --color-background: #0d0d0d;
+    --color-muted: #e0e0e0;
+}
+
+/* Base */
+body {
+    background: var(--color-background);
+    color: var(--color-muted);
+}
+
+/* Navbar outline gradient */
 :root {
-  --font-family3: "Poppins", sans-serif;
-  --font-family: "Creepster", cursive;
-  --font-family1: "Jolly Lodger", cursive;
-  --font-family2: "Inter", sans-serif;
-  --color-bg: #000000;
-  --primary-c: #7f00a6;
-  --secondary-c: #b200ee;
+    --brand-grad: linear-gradient(
+        90deg,
+        var(--color-primary) 0%,
+        var(--color-accent) 45%,
+        var(--color-accent-2) 100%
+    );
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  scroll-behavior: smooth;
+/* Utilities */
+.font-arcade {
+    font-family: "Press Start 2P", system-ui, sans-serif;
+}
+.vertical-rl {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
+/* ===== Legibility Helpers (no ugly boxes) =====
+   - text-outline-strong: multiple shadows → halo around text
+   - text-outline-soft  : lighter halo for labels
+   - text-stroke-strong : adds a subtle 1px stroke; shadow fallback keeps Firefox ok
+   Guidance: use scrims + outlines to meet contrast on images. :contentReference[oaicite:1]{index=1} */
+.text-outline-strong {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 -1px 3px rgba(0, 0, 0, 0.85),
+        1px 0 3px rgba(0, 0, 0, 0.85), -1px 0 3px rgba(0, 0, 0, 0.85),
+        0 0 12px rgba(0, 0, 0, 0.55);
+}
+.text-outline-soft {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65), 0 -1px 2px rgba(0, 0, 0, 0.55);
+}
+.text-stroke-strong {
+    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.6);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 0, 0, 0.35);
 }
 
-::-webkit-scrollbar:horizontal {
-  width: 0;
+/* Bottom scrim (transparent → dark), per Material guidance. :contentReference[oaicite:2]{index=2} */
+.scrim-bottom {
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.55) 0%,
+        rgba(0, 0, 0, 0.35) 40%,
+        rgba(0, 0, 0, 0) 100%
+    );
 }
 
-::-webkit-scrollbar-track {
-  background-color: rgb(78, 82, 88, 0.4);
+/* Icon & rail helpers */
+.icon-chip {
+    backdrop-filter: blur(2px);
+}
+.rail-pill {
+    backdrop-filter: blur(2px);
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: var(--primary-c);
-  border-radius: 10px;
-}
+/* (Removed title shimmer animation at your request) */
