@@ -15,11 +15,11 @@ export default function SparkleLayer() {
 
         window.addEventListener("resize", resize);
 
-        const sparkles = new Array(100).fill().map(() => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
+        const sparkles = Array.from({ length: 100 }).map(() => ({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
             radius: Math.random() * 1.5 + 0.5,
-            speed: Math.random() * 0.3 + 0.1
+            speed: Math.random() * 0.2 + 0.05
         }));
 
         const loop = () => {
@@ -41,8 +41,14 @@ export default function SparkleLayer() {
         };
 
         loop();
+
         return () => window.removeEventListener("resize", resize);
     }, []);
 
-    return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none -z-5" />;
+    return (
+        <canvas
+            ref={canvasRef}
+            className="absolute inset-0 pointer-events-none -z-5 sparkle-canvas"
+        />
+    );
 }

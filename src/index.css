@@ -56,8 +56,8 @@ body {
 .scrim-bottom {
     background: linear-gradient(
         to top,
-        rgba(0, 0, 0, 0.55) 0%,
-        rgba(0, 0, 0, 0.35) 40%,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.45) 40%,
         rgba(0, 0, 0, 0) 100%
     );
 }

@@ -21,15 +21,15 @@ export default function Fireworks() {
             constructor(x, y, hue) {
                 this.x = x;
                 this.y = y;
-                this.vx = rand(-3, 3);
-                this.vy = rand(-6, -2);
+                this.vx = rand(-2, 2);
+                this.vy = rand(-4, -1);
                 this.alpha = 1;
-                this.life = rand(40, 70);
+                this.life = rand(50, 80);
                 this.age = 0;
                 this.hue = hue;
-                this.size = rand(1.5, 3);
-                this.gravity = 0.05;
-                this.friction = 0.98;
+                this.size = rand(1, 2.5);
+                this.gravity = 0.035;
+                this.friction = 0.96;
             }
             step() {
                 this.age++;
@@ -54,7 +54,7 @@ export default function Fireworks() {
 
         const spawnBurst = (cx, cy) => {
             const hue = Math.floor(rand(0, 360));
-            const count = 50; // increased for fuller coverage
+            const count = 35;
             for (let i = 0; i < count; i++) {
                 particles.push(new Particle(cx, cy, hue));
             }
@@ -63,12 +63,12 @@ export default function Fireworks() {
         function loop() {
             requestAnimationFrame(loop);
             ctx.globalCompositeOperation = "destination-out";
-            ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+            ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.globalCompositeOperation = "lighter";
 
-            if (Math.random() < 0.08) {
+            if (Math.random() < 0.03) {
                 spawnBurst(rand(0, canvas.width), rand(0, canvas.height * 0.5));
             }
 
@@ -81,7 +81,6 @@ export default function Fireworks() {
         }
 
         loop();
-
         return () => window.removeEventListener("resize", resize);
     }, []);
 
