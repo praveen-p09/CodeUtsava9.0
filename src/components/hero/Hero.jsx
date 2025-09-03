@@ -8,18 +8,28 @@ import SparkleLayer from "../overlays/SparkleLayer.jsx";
 
 export default function Hero() {
     const bgRef = useRef(null);
+    const overlayRef = useRef(null);
 
+    // Smooth parallax (background + dark overlay move at different speeds)
     useEffect(() => {
         let raf = 0;
-        const speed = 0.22;
+        const speed = 0.2;
+        const overlaySpeed = 0.1;
+
         const onScroll = () => {
             if (raf) return;
             raf = requestAnimationFrame(() => {
-                const y = -window.scrollY * speed;
-                if (bgRef.current) bgRef.current.style.transform = `translate3d(0, ${y}px, 0)`;
+                const scrollY = window.scrollY || window.pageYOffset || 0;
+                if (bgRef.current) {
+                    bgRef.current.style.transform = `translate3d(0, ${-scrollY * speed}px, 0)`;
+                }
+                if (overlayRef.current) {
+                    overlayRef.current.style.transform = `translate3d(0, ${-scrollY * overlaySpeed}px, 0)`;
+                }
                 raf = 0;
             });
         };
+
         window.addEventListener("scroll", onScroll, { passive: true });
         onScroll();
         return () => {
@@ -30,10 +40,10 @@ export default function Hero() {
 
     return (
         <header className="relative overflow-hidden h-screen" aria-label="Hero">
-            {/* Parallax background */}
+            {/* === Background === */}
             <div
                 ref={bgRef}
-                className="absolute inset-0 -z-20 will-change-transform"
+                className="absolute inset-0 -z-30 will-change-transform"
                 style={{
                     backgroundImage: `url(${bg})`,
                     backgroundSize: "cover",
@@ -42,29 +52,31 @@ export default function Hero() {
                 }}
             />
 
-            {/* Global dark overlay */}
-            <div className="absolute inset-0 -z-10 bg-black/60" />
+            {/* === Overlay darkener (parallaxed) === */}
+            <div ref={overlayRef} className="absolute inset-0 -z-20 bg-black/60 will-change-transform" />
 
-            {/* Neon tint gradient */}
+            {/* === Neon gradient overlay (very soft) === */}
             <div
-                className="absolute inset-0 -z-10 pointer-events-none"
+                className="absolute inset-0 -z-20 pointer-events-none"
                 style={{
                     background:
-                        "linear-gradient(180deg, rgba(30,144,255,0.2) 0%, rgba(255,0,153,0.18) 55%, rgba(0,255,133,0.12) 100%)",
+                        "linear-gradient(180deg, rgba(30,144,255,0.20) 0%, rgba(255,0,153,0.18) 55%, rgba(0,255,133,0.10) 100%)",
                     mixBlendMode: "overlay"
                 }}
             />
 
-            {/* Stronger bottom scrim */}
+            {/* === Bottom scrim for small copy === */}
             <div className="scrim-bottom absolute inset-x-0 bottom-0 h-[70%] pointer-events-none -z-10" />
 
-            {/* Effects */}
+            {/* === Ambient FX === */}
             <Fireworks />
             <SparkleLayer />
+
+            {/* Rails (readable gradient pills) */}
             <SocialRail />
             <RightRail />
 
-            {/* Hero content */}
+            {/* === Hero Content (no boxes; outlines + scrim handle contrast) === */}
             <div className="relative z-10 h-full max-w-6xl mx-auto px-4 flex flex-col items-center justify-center text-center">
                 <h2
                     className="text-3xl md:text-5xl font-arcade tracking-widest text-outline-soft"

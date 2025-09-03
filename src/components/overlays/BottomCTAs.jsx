@@ -6,7 +6,7 @@ export default function BottomCTAs() {
             <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-col md:flex-row gap-4 px-4">
                 <a
                     href="#"
-                    className="pointer-events-auto px-5 py-3 rounded-xl shadow-lg font-semibold transition hover:opacity-95"
+                    className="pointer-events-auto px-5 py-3 rounded-xl shadow-lg font-semibold transition hover:opacity-95 animate-soft-pulse"
                     style={{ background: "var(--color-muted)", color: "var(--color-background)" }}
                 >
                     Apply with Devfolio
@@ -20,8 +20,6 @@ export default function BottomCTAs() {
                     STEPS TO REGISTER ON DEVFOLIO
                 </a>
             </div>
-
-            {/* Floating action button removed */}
         </div>
     );
 }

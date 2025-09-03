@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
-/* Semantic tokens (blue/pink/neon green/ink/soft) */
+/* === Theme Colors === */
 @theme {
-    --color-primary: #1e90ff;
-    --color-accent: #ff0099;
-    --color-accent-2: #00ff85;
+    --color-primary: #1e90ff; /* blue */
+    --color-accent: #ff0099; /* pink */
+    --color-accent-2: #00ff85; /* neon green */
     --color-background: #0d0d0d;
     --color-muted: #e0e0e0;
 }
 
-/* Base */
+/* === Base === */
 body {
     background: var(--color-background);
     color: var(--color-muted);
 }
 
-/* Navbar outline gradient */
+/* === Navbar outline gradient === */
 :root {
     --brand-grad: linear-gradient(
         90deg,
@@ -25,7 +25,7 @@ body {
     );
 }
 
-/* Utilities */
+/* === Utilities === */
 .font-arcade {
     font-family: "Press Start 2P", system-ui, sans-serif;
 }
@@ -33,12 +33,14 @@ body {
     writing-mode: vertical-rl;
     text-orientation: mixed;
 }
+.icon-chip {
+    backdrop-filter: blur(2px);
+}
+.rail-pill {
+    backdrop-filter: blur(2px);
+}
 
-/* ===== Legibility Helpers (no ugly boxes) =====
-   - text-outline-strong: multiple shadows → halo around text
-   - text-outline-soft  : lighter halo for labels
-   - text-stroke-strong : adds a subtle 1px stroke; shadow fallback keeps Firefox ok
-   Guidance: use scrims + outlines to meet contrast on images. :contentReference[oaicite:1]{index=1} */
+/* === Text Contrast Helpers === */
 .text-outline-strong {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 -1px 3px rgba(0, 0, 0, 0.85),
         1px 0 3px rgba(0, 0, 0, 0.85), -1px 0 3px rgba(0, 0, 0, 0.85),
@@ -52,7 +54,7 @@ body {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 0, 0, 0.35);
 }
 
-/* Bottom scrim (transparent → dark), per Material guidance. :contentReference[oaicite:2]{index=2} */
+/* === Bottom scrim (transparent → dark) === */
 .scrim-bottom {
     background: linear-gradient(
         to top,
@@ -62,12 +64,44 @@ body {
     );
 }
 
-/* Icon & rail helpers */
-.icon-chip {
-    backdrop-filter: blur(2px);
+/* === Optional bulbs (use .marquee-lights on borders) === */
+@keyframes bulbs {
+    0%,
+    100% {
+        box-shadow: 0 0 8px var(--color-accent-2), 0 0 16px var(--color-primary);
+    }
+    50% {
+        box-shadow: 0 0 6px var(--color-primary), 0 0 14px var(--color-accent);
+    }
 }
-.rail-pill {
-    backdrop-filter: blur(2px);
+.marquee-lights {
+    animation: bulbs 1.4s ease-in-out infinite;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 1rem;
 }
 
-/* (Removed title shimmer animation at your request) */
+/* === Optional soft pulsing effect (used on CTA) === */
+@keyframes softPulse {
+    0%,
+    100% {
+        opacity: 0.92;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-2px);
+    }
+}
+.animate-soft-pulse {
+    animation: softPulse 2.2s ease-in-out infinite;
+}
+
+/* === Sparkle layer positioning === */
+canvas.sparkle-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: -5;
+    pointer-events: none;
+}
+
+/* (No headline shimmer — removed per your request) */

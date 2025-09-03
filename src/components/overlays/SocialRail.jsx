@@ -5,6 +5,7 @@ const IconChip = ({ children, href = "#" }) => (
     <a
         href={href}
         className="icon-chip grid place-items-center w-11 h-11 rounded-xl bg-gradient-to-b from-black/65 to-black/55 border border-white/15 text-white shadow-[0_6px_24px_rgba(0,0,0,.35)] hover:opacity-90 transition"
+        aria-label="social link"
     >
         {children}
     </a>
