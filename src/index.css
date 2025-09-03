@@ -13,6 +13,7 @@
 body {
     background: var(--color-background);
     color: var(--color-muted);
+    -webkit-tap-highlight-color: transparent; /* mobile tap highlight */
 }
 
 /* === Navbar outline gradient === */

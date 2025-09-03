@@ -10,7 +10,7 @@ export default function Hero() {
     const bgRef = useRef(null);
     const overlayRef = useRef(null);
 
-    // Smooth parallax (background + dark overlay move at different speeds)
+    // Smooth parallax
     useEffect(() => {
         let raf = 0;
         const speed = 0.2;
@@ -19,7 +19,7 @@ export default function Hero() {
         const onScroll = () => {
             if (raf) return;
             raf = requestAnimationFrame(() => {
-                const scrollY = window.scrollY || window.pageYOffset || 0;
+                const scrollY = window.scrollY;
                 if (bgRef.current) {
                     bgRef.current.style.transform = `translate3d(0, ${-scrollY * speed}px, 0)`;
                 }
@@ -39,7 +39,8 @@ export default function Hero() {
     }, []);
 
     return (
-        <header className="relative overflow-hidden h-screen" aria-label="Hero">
+        // select-none prevents any text selection inside the hero
+        <header className="relative overflow-hidden h-screen select-none" aria-label="Hero">
             {/* === Background === */}
             <div
                 ref={bgRef}
@@ -52,31 +53,29 @@ export default function Hero() {
                 }}
             />
 
-            {/* === Overlay darkener (parallaxed) === */}
+            {/* === Overlay darkener === */}
             <div ref={overlayRef} className="absolute inset-0 -z-20 bg-black/60 will-change-transform" />
 
-            {/* === Neon gradient overlay (very soft) === */}
+            {/* === Neon gradient overlay === */}
             <div
                 className="absolute inset-0 -z-20 pointer-events-none"
                 style={{
                     background:
-                        "linear-gradient(180deg, rgba(30,144,255,0.20) 0%, rgba(255,0,153,0.18) 55%, rgba(0,255,133,0.10) 100%)",
+                        "linear-gradient(180deg, rgba(30,144,255,0.2) 0%, rgba(255,0,153,0.18) 55%, rgba(0,255,133,0.1) 100%)",
                     mixBlendMode: "overlay"
                 }}
             />
 
-            {/* === Bottom scrim for small copy === */}
+            {/* === Bottom scrim === */}
             <div className="scrim-bottom absolute inset-x-0 bottom-0 h-[70%] pointer-events-none -z-10" />
 
-            {/* === Ambient FX === */}
+            {/* === FX === */}
             <Fireworks />
             <SparkleLayer />
-
-            {/* Rails (readable gradient pills) */}
             <SocialRail />
             <RightRail />
 
-            {/* === Hero Content (no boxes; outlines + scrim handle contrast) === */}
+            {/* === Hero Content (no box) === */}
             <div className="relative z-10 h-full max-w-6xl mx-auto px-4 flex flex-col items-center justify-center text-center">
                 <h2
                     className="text-3xl md:text-5xl font-arcade tracking-widest text-outline-soft"
