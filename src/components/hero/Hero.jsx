@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import bg from "../../assets/images/bg.png";
-import SocialRail from "../overlays/SocialRail.jsx";
-import RightRail from "../overlays/RightRail.jsx";
-import BottomCTAs from "../overlays/BottomCTAs.jsx";
+import bg from "../../assets/images/bg-animation.gif";
+import SocialRail from "./SocialRail.jsx";
+import RightRail from "./RightRail.jsx";
+import BottomCTAs from "./BottomCTAs.jsx";
 import Fireworks from "../overlays/Fireworks.jsx";
 import SparkleLayer from "../overlays/SparkleLayer.jsx";
 
@@ -66,8 +66,8 @@ export default function Hero() {
                 }}
             />
 
-            {/* === Bottom scrim === */}
-            <div className="scrim-bottom absolute inset-x-0 bottom-0 h-[70%] pointer-events-none -z-10" />
+            {/* === Bottom scrim (BEM renamed) === */}
+            <div className="hero__scrim absolute inset-x-0 bottom-0 h-[70%] pointer-events-none -z-10" />
 
             {/* === FX === */}
             <Fireworks />
