@@ -1,14 +1,21 @@
-import React, { useEffect, useRef } from "react";
-import bg from "../../assets/images/bg.png";
-import SocialRail from "../overlays/SocialRail.jsx";
-import RightRail from "../overlays/RightRail.jsx";
-import BottomCTAs from "../overlays/BottomCTAs.jsx";
+import React, { useEffect, useRef, useState } from "react";
+import bg_image from "../../assets/images/bg_image.webp";
+import bg_video from "../../assets/bg_video.webm";
+import SocialRail from "./SocialRail.jsx";
+import RightRail from "./RightRail.jsx";
+import BottomCTAs from "./BottomCTAs.jsx";
 import Fireworks from "../overlays/Fireworks.jsx";
 import SparkleLayer from "../overlays/SparkleLayer.jsx";
 
 export default function Hero() {
     const bgRef = useRef(null);
     const overlayRef = useRef(null);
+    const videoRef = useRef(null);
+
+    // 👇 Adjust this to control how dark the background overlay is
+    const OVERLAY_OPACITY = 0.45; // e.g. 0.35 (lighter) · 0.6 (darker)
+
+    const [videoReady, setVideoReady] = useState(false);
 
     // Smooth parallax
     useEffect(() => {
@@ -38,23 +45,60 @@ export default function Hero() {
         };
     }, []);
 
-    return (
-        // select-none prevents any text selection inside the hero
-        <header className="relative overflow-hidden h-screen select-none" aria-label="Hero">
-            {/* === Background === */}
-            <div
-                ref={bgRef}
-                className="absolute inset-0 -z-30 will-change-transform"
-                style={{
-                    backgroundImage: `url(${bg})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat"
-                }}
-            />
+    // Prepare and swap to video once fully bufferable
+    useEffect(() => {
+        const vid = videoRef.current;
+        if (!vid) return;
 
-            {/* === Overlay darkener === */}
-            <div ref={overlayRef} className="absolute inset-0 -z-20 bg-black/60 will-change-transform" />
+        const handleCanPlayThrough = () => {
+            setVideoReady(true);
+            vid.play().catch(() => { });
+        };
+
+        vid.muted = true;
+        vid.playsInline = true;
+
+        vid.addEventListener("canplaythrough", handleCanPlayThrough, { once: true });
+        return () => {
+            vid.removeEventListener("canplaythrough", handleCanPlayThrough);
+        };
+    }, []);
+
+    return (
+        <header className="relative overflow-hidden h-screen select-none" aria-label="Hero">
+            {/* === Background wrapper (parallax target) === */}
+            <div ref={bgRef} className="absolute inset-0 -z-30 will-change-transform">
+                {/* Image shown first */}
+                <img
+                    src={bg_image}
+                    alt=""
+                    aria-hidden="true"
+                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${videoReady ? "opacity-0" : "opacity-100"
+                        }`}
+                    draggable="false"
+                />
+
+                {/* Video fades in after canplaythrough */}
+                <video
+                    ref={videoRef}
+                    src={bg_video}
+                    poster={bg_image}
+                    preload="auto"
+                    loop
+                    muted
+                    playsInline
+                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${videoReady ? "opacity-100" : "opacity-0"
+                        }`}
+                    style={{ pointerEvents: "none" }}
+                />
+            </div>
+
+            {/* === Overlay darkener (uses variable above) === */}
+            <div
+                ref={overlayRef}
+                className="absolute inset-0 -z-20 will-change-transform"
+                style={{ backgroundColor: `rgba(0,0,0, ${OVERLAY_OPACITY})` }}
+            />
 
             {/* === Neon gradient overlay === */}
             <div
@@ -66,8 +110,8 @@ export default function Hero() {
                 }}
             />
 
-            {/* === Bottom scrim === */}
-            <div className="scrim-bottom absolute inset-x-0 bottom-0 h-[70%] pointer-events-none -z-10" />
+            {/* === Bottom scrim (BEM renamed) === */}
+            <div className="hero__scrim absolute inset-x-0 bottom-0 h-[70%] pointer-events-none -z-10" />
 
             {/* === FX === */}
             <Fireworks />
