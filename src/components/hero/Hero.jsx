@@ -10,33 +10,33 @@ export default function Hero() {
     const bgRef = useRef(null);
     const overlayRef = useRef(null);
 
-    // Smooth parallax
-    useEffect(() => {
-        let raf = 0;
-        const speed = 0.2;
-        const overlaySpeed = 0.1;
+    // // Smooth parallax
+    // useEffect(() => {
+    //     let raf = 0;
+    //     const speed = 0.2;
+    //     const overlaySpeed = 0.1;
 
-        const onScroll = () => {
-            if (raf) return;
-            raf = requestAnimationFrame(() => {
-                const scrollY = window.scrollY;
-                if (bgRef.current) {
-                    bgRef.current.style.transform = `translate3d(0, ${-scrollY * speed}px, 0)`;
-                }
-                if (overlayRef.current) {
-                    overlayRef.current.style.transform = `translate3d(0, ${-scrollY * overlaySpeed}px, 0)`;
-                }
-                raf = 0;
-            });
-        };
+    //     const onScroll = () => {
+    //         if (raf) return;
+    //         raf = requestAnimationFrame(() => {
+    //             const scrollY = window.scrollY;
+    //             if (bgRef.current) {
+    //                 bgRef.current.style.transform = `translate3d(0, ${-scrollY * speed}px, 0)`;
+    //             }
+    //             if (overlayRef.current) {
+    //                 overlayRef.current.style.transform = `translate3d(0, ${-scrollY * overlaySpeed}px, 0)`;
+    //             }
+    //             raf = 0;
+    //         });
+    //     };
 
-        window.addEventListener("scroll", onScroll, { passive: true });
-        onScroll();
-        return () => {
-            window.removeEventListener("scroll", onScroll);
-            if (raf) cancelAnimationFrame(raf);
-        };
-    }, []);
+    //     window.addEventListener("scroll", onScroll, { passive: true });
+    //     onScroll();
+    //     return () => {
+    //         window.removeEventListener("scroll", onScroll);
+    //         if (raf) cancelAnimationFrame(raf);
+    //     };
+    // }, []);
 
     return (
         // select-none prevents any text selection inside the hero
@@ -44,7 +44,7 @@ export default function Hero() {
             {/* === Background === */}
             <div
                 ref={bgRef}
-                className="absolute inset-0 -z-30 will-change-transform"
+                className="fixed inset-0 -z-30 will-change-transform"
                 style={{
                     backgroundImage: `url(${bg})`,
                     backgroundSize: "cover",

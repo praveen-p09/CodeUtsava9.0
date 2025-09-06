@@ -36,6 +36,24 @@ const hackathonData = [
     date: "1ˢᵗ Nov, 8:00 AM",
     description: "Commencement of Codeutsava 7.0!",
   },
+  {
+    id: '#6',
+    title: "Hackathon Begins!",
+    date: "1ˢᵗ Nov, 8:00 AM",
+    description: "Commencement of Codeutsava 7.0!",
+  },
+  {
+    id: '#7',
+    title: "Hackathon Is going on!",
+    date: "1ˢᵗ Nov, 8:00 AM",
+    description: "Commencement of Codeutsava 7.0!",
+  },
+  {
+    id: '#8',
+    title: "Hackathon Begins!",
+    date: "1ˢᵗ Nov, 8:00 AM",
+    description: "Commencement of Codeutsava 7.0!",
+  },
 ];
 
 export default hackathonData
