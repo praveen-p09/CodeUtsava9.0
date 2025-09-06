@@ -4,9 +4,9 @@ import Intro from "./components/intro/Intro.jsx";
 import Navbar from "./components/navbar/Navbar.jsx";
 import Hero from "./components/hero/Hero.jsx";
 import Footer from "./components/footer/Footer.jsx";
-import BottomCTAs from "./components/overlays/BottomCTAs.jsx";
-import RightRail from "./components/overlays/RightRail.jsx";
-import SocialRail from "./components/overlays/SocialRail.jsx";
+import BottomCTAs from "./components/hero/BottomCTAs.jsx";
+import RightRail from "./components/hero/RightRail.jsx";
+import SocialRail from "./components/hero/SocialRail.jsx";
 
 function Layout() {
   const location = useLocation();

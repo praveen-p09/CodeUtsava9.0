@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import bg_image from "../../assets/images/bg_image.webp";
 import bg_video from "../../assets/bg_video.webm";
 import SocialRail from "./SocialRail.jsx";
@@ -6,146 +6,72 @@ import RightRail from "./RightRail.jsx";
 import BottomCTAs from "./BottomCTAs.jsx";
 import Fireworks from "../overlays/Fireworks.jsx";
 import SparkleLayer from "../overlays/SparkleLayer.jsx";
+import Navbar from "../navbar/Navbar.jsx";
+import BackgroundMedia from "../background/Background.jsx";
 
 export default function Hero() {
-    const bgRef = useRef(null);
-    const overlayRef = useRef(null);
-    const videoRef = useRef(null);
+  const [fadeIn, setFadeIn] = useState(false);
 
-    // 👇 Adjust this to control how dark the background overlay is
-    const OVERLAY_OPACITY = 0.45; // e.g. 0.35 (lighter) · 0.6 (darker)
+  useEffect(() => {
+    // Trigger fade-in shortly after mount
+    const timer = setTimeout(() => setFadeIn(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
 
-    const [videoReady, setVideoReady] = useState(false);
+  return (
+    <div
+      className={`transition-opacity duration-1000 ease-in-out ${
+        fadeIn ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <header
+        className="relative isolate overflow-hidden h-screen select-none"
+        aria-label="Hero"
+      >
+        {/* Background */}
+        <BackgroundMedia imageSrc={bg_image} videoSrc={bg_video} darken={0.5} />
 
-    // Smooth parallax
-    useEffect(() => {
-        let raf = 0;
-        const speed = 0.2;
-        const overlaySpeed = 0.1;
+        {/* Navbar */}
+        <Navbar />
 
-        const onScroll = () => {
-            if (raf) return;
-            raf = requestAnimationFrame(() => {
-                const scrollY = window.scrollY;
-                if (bgRef.current) {
-                    bgRef.current.style.transform = `translate3d(0, ${-scrollY * speed}px, 0)`;
-                }
-                if (overlayRef.current) {
-                    overlayRef.current.style.transform = `translate3d(0, ${-scrollY * overlaySpeed}px, 0)`;
-                }
-                raf = 0;
-            });
-        };
+        {/* FX */}
+        <Fireworks />
+        <SparkleLayer />
 
-        window.addEventListener("scroll", onScroll, { passive: true });
-        onScroll();
-        return () => {
-            window.removeEventListener("scroll", onScroll);
-            if (raf) cancelAnimationFrame(raf);
-        };
-    }, []);
+        {/* Rails */}
+        <SocialRail />
+        <RightRail />
 
-    // Prepare and swap to video once fully bufferable
-    useEffect(() => {
-        const vid = videoRef.current;
-        if (!vid) return;
+        {/* Hero Content */}
+        <div className="relative z-10 h-full max-w-6xl mx-auto px-4 flex flex-col items-center justify-center text-center">
+          <h2
+            className="text-3xl md:text-5xl font-arcade tracking-widest text-outline-soft"
+            style={{ color: "var(--color-primary)" }}
+          >
+            WELCOME TO
+          </h2>
 
-        const handleCanPlayThrough = () => {
-            setVideoReady(true);
-            vid.play().catch(() => { });
-        };
+          <h1
+            className="mt-5 font-arcade text-4xl md:text-7xl leading-tight [letter-spacing:4px] text-white text-stroke-strong"
+            style={{ whiteSpace: "nowrap" }}
+          >
+            CODEUTSAVA 9.0
+          </h1>
 
-        vid.muted = true;
-        vid.playsInline = true;
+          <p className="mt-8 text-2xl md:text-4xl font-semibold tracking-wide text-white text-outline-strong">
+            CODE. INNOVATE. CELEBRATE.
+          </p>
 
-        vid.addEventListener("canplaythrough", handleCanPlayThrough, { once: true });
-        return () => {
-            vid.removeEventListener("canplaythrough", handleCanPlayThrough);
-        };
-    }, []);
+          <p className="mt-4 text-sm md:text-lg tracking-[0.2em] text-white text-outline-strong">
+            CENTRAL INDIA’S{" "}
+            <span style={{ color: "var(--color-accent-2)" }}>LARGEST CODING EVENT.</span>{" "}
+            JOIN US ON <b style={{ color: "var(--color-primary)" }}>10—11 OCTOBER.</b>
+          </p>
+        </div>
 
-    return (
-        <header className="relative overflow-hidden h-screen select-none" aria-label="Hero">
-            {/* === Background wrapper (parallax target) === */}
-            <div ref={bgRef} className="absolute inset-0 -z-30 will-change-transform">
-                {/* Image shown first */}
-                <img
-                    src={bg_image}
-                    alt=""
-                    aria-hidden="true"
-                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${videoReady ? "opacity-0" : "opacity-100"
-                        }`}
-                    draggable="false"
-                />
-
-                {/* Video fades in after canplaythrough */}
-                <video
-                    ref={videoRef}
-                    src={bg_video}
-                    poster={bg_image}
-                    preload="auto"
-                    loop
-                    muted
-                    playsInline
-                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${videoReady ? "opacity-100" : "opacity-0"
-                        }`}
-                    style={{ pointerEvents: "none" }}
-                />
-            </div>
-
-            {/* === Overlay darkener (uses variable above) === */}
-            <div
-                ref={overlayRef}
-                className="absolute inset-0 -z-20 will-change-transform"
-                style={{ backgroundColor: `rgba(0,0,0, ${OVERLAY_OPACITY})` }}
-            />
-
-            {/* === Neon gradient overlay === */}
-            <div
-                className="absolute inset-0 -z-20 pointer-events-none"
-                style={{
-                    background:
-                        "linear-gradient(180deg, rgba(30,144,255,0.2) 0%, rgba(255,0,153,0.18) 55%, rgba(0,255,133,0.1) 100%)",
-                    mixBlendMode: "overlay"
-                }}
-            />
-
-            {/* === Bottom scrim (BEM renamed) === */}
-            <div className="hero__scrim absolute inset-x-0 bottom-0 h-[70%] pointer-events-none -z-10" />
-
-            {/* === FX === */}
-            <Fireworks />
-            <SparkleLayer />
-            <SocialRail />
-            <RightRail />
-
-            {/* === Hero Content (no box) === */}
-            <div className="relative z-10 h-full max-w-6xl mx-auto px-4 flex flex-col items-center justify-center text-center">
-                <h2
-                    className="text-3xl md:text-5xl font-arcade tracking-widest text-outline-soft"
-                    style={{ color: "var(--color-primary)" }}
-                >
-                    WELCOME TO
-                </h2>
-
-                <h1
-                    className="mt-5 font-arcade text-4xl md:text-7xl leading-tight [letter-spacing:4px] text-white text-stroke-strong"
-                    style={{ whiteSpace: "nowrap" }}
-                >
-                    CODEUTSAVA 9.0
-                </h1>
-
-                <p className="mt-8 text-2xl md:text-4xl font-semibold tracking-wide text-white text-outline-strong">
-                    CODE. INNOVATE. CELEBRATE.
-                </p>
-
-                <p className="mt-4 text-sm md:text-lg tracking-[0.2em] text-white text-outline-strong">
-                    CENTRAL INDIA’S <span style={{ color: "var(--color-accent-2)" }}>LARGEST CODING EVENT.</span>{" "}
-                    JOIN US ON <b style={{ color: "var(--color-primary)" }}>10—11 OCTOBER.</b>
-                </p>
-            </div>
-
-            <BottomCTAs />
-        </header>
-    );
+        {/* Bottom CTAs */}
+        <BottomCTAs /> 
+      </header>
+    </div>
+  );
 }
