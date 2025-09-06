@@ -1,9 +1,22 @@
 import { useState } from "react";
 import Navbar from "../components/navbar/Navbar";
 import bgVideo from "../assets/background/carnival_bg.mp4"; 
+import FAQimg from "../assets/images/FAQimg.png";
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
+  const colors = [
+  "bg-red-300",
+  "bg-green-300",
+  "bg-blue-300",
+  "bg-yellow-300",
+  "bg-pink-300",
+  "bg-purple-300",
+  "bg-orange-300",
+  "bg-teal-300",
+  "bg-indigo-300",
+  "bg-cyan-300",
+];
 
   const faqs = [
     {
@@ -86,7 +99,7 @@ export default function FAQ() {
 
 
         <Navbar/>
-      <div className="max-w-3xl w-full bg-sky-800/60 backdrop-blur-md rounded-2xl shadow-2xl p-8 my-16">
+      <div className="max-w-3xl w-full bg-gradient-to-r from-blue-400/40 via-pink-500/40 to-green-500/40 backdrop-blur-md rounded-2xl shadow-2xl p-8 my-16">
         {/* Header */}
 <div className="flex flex-col items-center mb-12">
   {/* Top Heading */}
@@ -107,7 +120,7 @@ export default function FAQ() {
 
     {/* Right image */}
     <img
-      src=""
+      src={FAQimg}
       alt=""
       className="h-48 w-auto mx-auto object-contain"
     />
@@ -121,26 +134,26 @@ export default function FAQ() {
           {faqs.map((faq, idx) => (
             <div
               key={idx}
-              className="border border-sky-400 bg-white rounded-lg shadow-md"
+              className="border border-white/60 bg-gradient-to-r from-blue-500/80 via-pink-500/80 to-green-500/80 rounded-lg shadow-md"
             >
               <div
-                className="cursor-pointer flex justify-between items-center px-4 py-3 text-sky-600 font-['Unica One'] text-lg font-bold"
+                className="cursor-pointer flex justify-between items-center px-4 py-3 text-white font-['Unica One'] text-lg font-bold"
                 onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
               >
                 {faq.q}
                 <span className="relative w-4 h-4 flex items-center justify-center">
     {/* Horizontal bar */}
-    <span className="absolute w-4 h-0.5 bg-sky-400 transition-transform duration-300"></span>
+    <span className="absolute w-4 h-0.5 bg-white transition-transform duration-300"></span>
     {/* Vertical bar */}
     <span
-      className={`absolute w-0.5 h-4 bg-sky-400 transition-all duration-300 ${
+      className={`absolute w-0.5 h-4 bg-white transition-all duration-300 ${
         openIndex === idx ? "opacity-0 rotate-270" : "opacity-100 rotate-0"
       }`}
     ></span>
   </span>
               </div>
               {openIndex === idx && (
-                <div className="px-4 py-3 bg-white/70 text-sky-700 font-sans font-semibold text-base">
+                <div className="px-4 py-3 bg-gradient-to-r from-blue-500/60 via-pink-500/60 to-green-500/60 text-white font-sans font-semibold text-base">
                   {faq.a}
                 </div>
               )}
@@ -151,3 +164,4 @@ export default function FAQ() {
     </div>
   );
 }
+
