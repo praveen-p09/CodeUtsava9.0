@@ -30,7 +30,6 @@ export default function Hero() {
       >
         {/* Background */}
         <BackgroundMedia imageSrc={bg_image} videoSrc={bg_video} darken={0.5} />
-
         {/* Navbar */}
         <Navbar />
 
